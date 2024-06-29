@@ -45,16 +45,18 @@ class EditScreen extends StatelessWidget {
             children: [
               TextFormField(
                 controller: controller.titleController,
-                enabled: true,
+                enabled: controller.isEditMode || note == null,
+                style: const TextStyle(color: Colors.black),
                 decoration: const InputDecoration(hintText: 'Type the title here'),
               ),
               const SizedBox(height: 5),
               Expanded(
                 child: TextFormField(
                   controller: controller.descriptionController,
-                  enabled: true,
+                  enabled: controller.isEditMode || note == null,
                   maxLines: null,
                   expands: true,
+                  style: const TextStyle(color: Colors.black),
                   decoration: const InputDecoration(hintText: 'Type the description'),
                 ),
               ),
