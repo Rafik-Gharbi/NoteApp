@@ -15,11 +15,11 @@ class SharedPreferencesService {
     _pref ??= await SecureSharedPref.getInstance();
   }
 
-  void put(String key, String value) {
-    _pref!.putString(key, value, isEncrypted: true);
+  Future<void> put(String key, String value) async {
+    await _pref!.putString(key, value, isEncrypted: true);
   }
 
-  void read(String key) {
-    _pref!.getString(key, isEncrypted: true);
+  Future<String?> read(String key) async {
+    return await _pref!.getString(key, isEncrypted: true);
   }
 }

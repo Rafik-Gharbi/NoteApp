@@ -1,8 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'controllers/notes_controller.dart';
 import 'firebase_options.dart';
 import 'services/shared_preferences_service.dart';
 
+import 'views/home_screen.dart';
 import 'views/login_screen.dart';
 
 Future<void> main() async {
@@ -16,17 +19,26 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _initializeBindings();
-    return MaterialApp(
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'myFirst',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: const LoginScreen(),
-      // home: const HomeScreen(),
-      // home: const EditScreen(),
+      initialBinding: InitialBindings(),
+      getPages: [
+        GetPage(
+          name: HomeScreen.routeName,
+          page: () => const HomeScreen(),
+          binding: BindingsBuilder.put(() => NotesController()),
+        ),
+      ],
     );
   }
+}
 
-  void _initializeBindings() {
-    SharedPreferencesService();
+class InitialBindings implements Bindings {
+  @override
+  void dependencies() {
+    Get.put(SharedPreferencesService(), permanent: true);
   }
 }

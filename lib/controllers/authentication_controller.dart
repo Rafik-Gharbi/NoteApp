@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../constants/shared_preferences_keys.dart';
 import '../views/home_screen.dart';
@@ -18,7 +19,7 @@ class AuthenticationController {
         );
         if (userCredential.user?.email != null) {
           SharedPreferencesService().put(userKey, userCredential.user!.email!);
-          Navigator.pushReplacement(context, HomeScreen.route());
+          Get.toNamed(HomeScreen.routeName);
         }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
