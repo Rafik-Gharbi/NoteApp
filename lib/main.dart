@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:map_exam/firebase_options.dart';
+import 'firebase_options.dart';
+import 'services/shared_preferences_service.dart';
 
-import 'login_screen.dart';
+import 'views/login_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,6 +16,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _initializeBindings();
     return MaterialApp(
       title: 'myFirst',
       theme: ThemeData(primarySwatch: Colors.blue),
@@ -22,5 +24,9 @@ class App extends StatelessWidget {
       // home: const HomeScreen(),
       // home: const EditScreen(),
     );
+  }
+
+  void _initializeBindings() {
+    SharedPreferencesService();
   }
 }
