@@ -28,4 +28,13 @@ class NotesController extends GetxController {
     }
     update();
   }
+
+  Future<void> deleteNote(id) async {
+    FirebaseFirestore.instance.collection('notes').where(FieldPath.documentId, isEqualTo: id).get().then((value) async {
+      if (value.docs.isNotEmpty) {
+        await value.docs.first.reference.delete();
+        getData();
+      }
+    });
+  }
 }

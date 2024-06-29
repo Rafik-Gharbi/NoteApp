@@ -46,7 +46,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                               IconButton(
                                 icon: const Icon(Icons.delete, color: Colors.blue),
-                                onPressed: () {},
+                                onPressed: () => controller.deleteNote(note.id),
                               ),
                             ],
                           ),
