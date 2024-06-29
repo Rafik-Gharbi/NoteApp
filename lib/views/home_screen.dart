@@ -75,7 +75,7 @@ class HomeScreen extends StatelessWidget {
               BuildFloatingButton(
                 tag: 'new-note',
                 icon: Icons.add,
-                onPressed: () => Get.toNamed(EditScreen.routeName),
+                onPressed: () => Get.toNamed(EditScreen.routeName)?.then((_) => controller.clearFormFields()),
                 tooltip: 'Add a new note',
               ),
             ],

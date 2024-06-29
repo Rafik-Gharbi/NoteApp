@@ -46,12 +46,33 @@ class NotesController extends GetxController {
     isEditMode = !viewMode;
     titleController.text = note.title ?? '';
     descriptionController.text = note.content ?? '';
-    Get.toNamed(EditScreen.routeName, arguments: note)?.then((value) => _clearFormFields());
+    Get.toNamed(EditScreen.routeName, arguments: note)?.then((_) => clearFormFields());
   }
 
-  void _clearFormFields() {
+  void clearFormFields() {
     isEditMode = false;
     titleController.text = '';
     descriptionController.text = '';
+  }
+
+  Future<void> upsertNote(Note? note) async {
+    if (titleController.text.isNotEmpty && descriptionController.text.isNotEmpty) {
+      if (note != null) {
+        // Edit note
+        await FirebaseFirestore.instance.collection('notes').doc(note.id).update({
+          'title': titleController.text,
+          'description': descriptionController.text,
+        });
+      } else {
+        // Add new note
+        final note = Note(title: titleController.text, content: descriptionController.text);
+        final currentUser = await SharedPreferencesService().read(userKey);
+        if (currentUser != null) {
+          await FirebaseFirestore.instance.collection('notes').add(note.toJson(currentUser));
+        }
+      }
+      Get.back();
+      getData();
+    }
   }
 }

@@ -30,7 +30,7 @@ class EditScreen extends StatelessWidget {
               IconButton(
                 style: const ButtonStyle(iconColor: WidgetStatePropertyAll(Colors.white)),
                 icon: const Icon(Icons.check_circle, size: 30),
-                onPressed: () {},
+                onPressed: () => controller.upsertNote(note),
               ),
             IconButton(
               style: const ButtonStyle(iconColor: WidgetStatePropertyAll(Colors.white)),
