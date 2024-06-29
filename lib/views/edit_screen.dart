@@ -17,13 +17,21 @@ class EditScreen extends StatelessWidget {
           leading: const SizedBox(),
           centerTitle: true,
           backgroundColor: Colors.lightBlue,
-          title: const Text('App Bar Title', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          title: Text(
+            note == null
+                ? 'Add new Note'
+                : !controller.isEditMode
+                    ? 'View Note'
+                    : 'Edit Note',
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
           actions: [
-            IconButton(
-              style: const ButtonStyle(iconColor: WidgetStatePropertyAll(Colors.white)),
-              icon: const Icon(Icons.check_circle, size: 30),
-              onPressed: () {},
-            ),
+            if (controller.isEditMode || note == null)
+              IconButton(
+                style: const ButtonStyle(iconColor: WidgetStatePropertyAll(Colors.white)),
+                icon: const Icon(Icons.check_circle, size: 30),
+                onPressed: () {},
+              ),
             IconButton(
               style: const ButtonStyle(iconColor: WidgetStatePropertyAll(Colors.white)),
               icon: const Icon(Icons.cancel_sharp, size: 30),
