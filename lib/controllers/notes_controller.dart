@@ -5,11 +5,15 @@ import 'package:get/get.dart';
 import '../constants/shared_preferences_keys.dart';
 import '../models/note.dart';
 import '../services/shared_preferences_service.dart';
+import '../views/edit_screen.dart';
 
 class NotesController extends GetxController {
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
   List<Note> userNotes = [];
   RxBool isShrinked = false.obs;
   RxString focusedNode = ''.obs;
+  bool isEditMode = false;
 
   static final NotesController _singleton = NotesController._internal();
 
@@ -36,5 +40,18 @@ class NotesController extends GetxController {
         getData();
       }
     });
+  }
+
+  void openEditNote({required Note note, bool viewMode = true}) {
+    isEditMode = !viewMode;
+    titleController.text = note.title ?? '';
+    descriptionController.text = note.content ?? '';
+    Get.toNamed(EditScreen.routeName, arguments: note)?.then((value) => _clearFormFields());
+  }
+
+  void _clearFormFields() {
+    isEditMode = false;
+    titleController.text = '';
+    descriptionController.text = '';
   }
 }

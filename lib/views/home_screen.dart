@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../controllers/notes_controller.dart';
 import '../widgets/build_floating_button.dart';
+import 'edit_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = '/home';
@@ -42,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                             children: [
                               IconButton(
                                 icon: const Icon(Icons.edit, color: Colors.blue),
-                                onPressed: () {},
+                                onPressed: () => controller.openEditNote(note: note, viewMode: false),
                               ),
                               IconButton(
                                 icon: const Icon(Icons.delete, color: Colors.blue),
@@ -54,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                       : null,
                   title: Text(note.title ?? ''),
                   subtitle: controller.isShrinked.value ? null : Text(note.content ?? ''),
-                  onTap: () {},
+                  onTap: () => controller.openEditNote(note: note),
                   onLongPress: () => controller.focusedNode.value == note.id ? controller.focusedNode.value = '' : controller.focusedNode.value = note.id,
                 ),
               );
@@ -74,7 +75,7 @@ class HomeScreen extends StatelessWidget {
               BuildFloatingButton(
                 tag: 'new-note',
                 icon: Icons.add,
-                onPressed: () {},
+                onPressed: () => Get.toNamed(EditScreen.routeName),
                 tooltip: 'Add a new note',
               ),
             ],

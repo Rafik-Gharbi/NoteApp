@@ -5,6 +5,7 @@ import 'controllers/notes_controller.dart';
 import 'firebase_options.dart';
 import 'services/shared_preferences_service.dart';
 
+import 'views/edit_screen.dart';
 import 'views/home_screen.dart';
 import 'views/login_screen.dart';
 
@@ -29,6 +30,11 @@ class App extends StatelessWidget {
         GetPage(
           name: HomeScreen.routeName,
           page: () => const HomeScreen(),
+          binding: BindingsBuilder.put(() => NotesController()),
+        ),
+        GetPage(
+          name: EditScreen.routeName,
+          page: () => EditScreen(note: Get.arguments),
           binding: BindingsBuilder.put(() => NotesController()),
         ),
       ],
