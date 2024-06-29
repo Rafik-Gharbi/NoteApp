@@ -8,6 +8,7 @@ import '../services/shared_preferences_service.dart';
 
 class NotesController extends GetxController {
   List<Note> userNotes = [];
+  RxBool isShrinked = false.obs;
 
   static final NotesController _singleton = NotesController._internal();
 

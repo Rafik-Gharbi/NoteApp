@@ -19,7 +19,7 @@ class AuthenticationController {
         );
         if (userCredential.user?.email != null) {
           SharedPreferencesService().put(userKey, userCredential.user!.email!);
-          Get.toNamed(HomeScreen.routeName);
+          Get.offAndToNamed(HomeScreen.routeName);
         }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {

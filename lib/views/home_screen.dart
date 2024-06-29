@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/notes_controller.dart';
+import '../widgets/build_floating_button.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = '/home';
@@ -13,13 +14,14 @@ class HomeScreen extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('My Notes'),
+            backgroundColor: Colors.lightBlue,
+            title: const Text('My Notes', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
             actions: [
               CircleAvatar(
-                backgroundColor: Colors.blue.shade200,
+                backgroundColor: Colors.blue.shade100,
                 child: Text(
                   controller.userNotes.length.toString(),
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0, color: Colors.blue.shade600),
                 ),
               ),
               const SizedBox(width: 10),
@@ -30,49 +32,53 @@ class HomeScreen extends StatelessWidget {
             separatorBuilder: (context, index) => const Divider(color: Colors.blueGrey),
             itemBuilder: (context, index) {
               final note = controller.userNotes[index];
-              return ListTile(
-                trailing: SizedBox(
-                  width: 110.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit, color: Colors.blue),
-                        onPressed: () {},
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.blue),
-                        onPressed: () {},
-                      ),
-                    ],
+              return Obx(
+                () => ListTile(
+                  trailing: SizedBox(
+                    width: 110.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.edit, color: Colors.blue),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.delete, color: Colors.blue),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
                   ),
+                  title: Text(note.title ?? ''),
+                  subtitle: controller.isShrinked.value ? null : Text(note.content ?? ''),
+                  onTap: () {},
+                  onLongPress: () {},
                 ),
-                title: Text(note.title ?? ''),
-                subtitle: Text(note.content ?? ''),
-                onTap: () {},
-                onLongPress: () {},
               );
             },
           ),
           floatingActionButton: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              FloatingActionButton(
-                heroTag: 'less/more',
-                child: const Icon(Icons.menu),
-                tooltip: 'Show less. Hide notes content',
-                onPressed: () {},
+              Obx(
+                () => BuildFloatingButton(
+                  tag: 'less/more',
+                  icon: controller.isShrinked.value ? Icons.menu : Icons.unfold_less_outlined,
+                  onPressed: () => controller.isShrinked.value = !controller.isShrinked.value,
+                  tooltip: 'Show less. Hide notes content',
+                ),
               ),
-              FloatingActionButton(
-                heroTag: 'new-note',
-                child: const Icon(Icons.add),
-                tooltip: 'Add a new note',
+              BuildFloatingButton(
+                tag: 'new-note',
+                icon: Icons.add,
                 onPressed: () {},
+                tooltip: 'Add a new note',
               ),
             ],
           ),
         );
-      }
+      },
     );
   }
 }
