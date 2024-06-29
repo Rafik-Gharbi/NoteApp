@@ -34,26 +34,28 @@ class HomeScreen extends StatelessWidget {
               final note = controller.userNotes[index];
               return Obx(
                 () => ListTile(
-                  trailing: SizedBox(
-                    width: 110.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.edit, color: Colors.blue),
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.delete, color: Colors.blue),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                  ),
+                  trailing: controller.focusedNode.value == note.id
+                      ? SizedBox(
+                          width: 110.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.edit, color: Colors.blue),
+                                onPressed: () {},
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete, color: Colors.blue),
+                                onPressed: () {},
+                              ),
+                            ],
+                          ),
+                        )
+                      : null,
                   title: Text(note.title ?? ''),
                   subtitle: controller.isShrinked.value ? null : Text(note.content ?? ''),
                   onTap: () {},
-                  onLongPress: () {},
+                  onLongPress: () => controller.focusedNode.value == note.id ? controller.focusedNode.value = '' : controller.focusedNode.value = note.id,
                 ),
               );
             },

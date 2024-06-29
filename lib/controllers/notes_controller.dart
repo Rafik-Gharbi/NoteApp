@@ -9,6 +9,7 @@ import '../services/shared_preferences_service.dart';
 class NotesController extends GetxController {
   List<Note> userNotes = [];
   RxBool isShrinked = false.obs;
+  RxString focusedNode = ''.obs;
 
   static final NotesController _singleton = NotesController._internal();
 
@@ -22,7 +23,7 @@ class NotesController extends GetxController {
     final currentUser = await SharedPreferencesService().read(userKey);
     final response = await FirebaseFirestore.instance.collection('notes').where('user', isEqualTo: currentUser).get();
     if (response.docs.isNotEmpty) {
-      userNotes = response.docs.map((e) => Note.fromJson(e.data())).toList();
+      userNotes = response.docs.map((e) => Note.fromJson(e.data(), e.id)).toList();
       debugPrint(userNotes.length.toString());
     }
     update();
